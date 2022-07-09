@@ -1,7 +1,7 @@
 ﻿using Business.Entities;
 using Business.Repositories;
 using Dapper;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 namespace MssqlDatabase.Repositories;
@@ -41,6 +41,19 @@ public class UserRepository : IUserRepository
         using var connection = new SqlConnection(stringConnection);
 
         return connection.QuerySingleOrDefault<UserModel>(query, new {userId});
+    }
+    
+    public UserModel? GetByLogin(string userLogin)
+    {
+        var query = @"
+            SELECT Id, Login, Password, Pseudonym
+            FROM Users
+            WHERE Login = @UserLogin
+        ";
+
+        using var connection = new SqlConnection(stringConnection);
+
+        return connection.QuerySingleOrDefault<UserModel>(query, new {UserLogin = userLogin});
     }
 
     public void Insert(UserModel userModel)

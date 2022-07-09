@@ -7,12 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+        <PackageReference Include="FluentValidation" Version="11.1.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
-      <Folder Include="Models" />
+      <ProjectReference Include="..\Business\Business.csproj" />
+      <ProjectReference Include="..\MssqlDatabase\MssqlDatabase.csproj" />
     </ItemGroup>
 
 </Project>

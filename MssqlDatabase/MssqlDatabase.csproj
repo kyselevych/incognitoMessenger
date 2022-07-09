@@ -14,6 +14,8 @@
       <PackageReference Include="Dapper" Version="2.0.123" />
       <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.0-preview3.22168.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0-preview.5.22301.12" />
+      <PackageReference Include="Microsoft.SqlServer.Server" Version="1.0.0" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
     </ItemGroup>
 
 </Project>

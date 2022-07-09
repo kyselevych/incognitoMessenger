@@ -1,11 +1,20 @@
+using Business.Repositories;
+using FluentValidation;
+using IncognitoMessenger.Profiles;
+using IncognitoMessenger.Validation.Validators;
+using MssqlDatabase.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Services
 
+builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(UserRegisterModelValidator));
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

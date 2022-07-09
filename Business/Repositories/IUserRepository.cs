@@ -6,7 +6,9 @@ public interface IUserRepository
 {
     IEnumerable<UserModel> GetAll();
     
-    UserModel GetById(int userId);  
+    UserModel? GetById(int userId);  
+    
+    UserModel? GetByLogin(string userLogin);  
         
     void Insert(UserModel userModel);
         
