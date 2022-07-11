@@ -56,16 +56,17 @@ public class UserRepository : IUserRepository
         return connection.QuerySingleOrDefault<UserModel>(query, new {UserLogin = userLogin});
     }
 
-    public void Insert(UserModel userModel)
+    public int Insert(UserModel userModel)
     {
         var query = @"
             INSERT INTO Users (Login, Password, Pseudonym)
             VALUES (@Login, @Password, @Pseudonym)
+            SELECT CAST(scope_identity() AS int)
         ";
 
         using var connection = new SqlConnection(stringConnection);
 
-        connection.Execute(query, userModel);
+        return connection.ExecuteScalar<int>(query, userModel);
     }
 
     public void Delete(int userId)

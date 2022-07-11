@@ -10,7 +10,7 @@ public interface IUserRepository
     
     UserModel? GetByLogin(string userLogin);  
         
-    void Insert(UserModel userModel);
+    int Insert(UserModel userModel);
         
     void Delete(int userId);
     
