@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace MssqlDatabase.Repositories;
 
-public class RefreshTokenRepository : IRefreshTokenRepository
+public class TokenRepository : ITokenRepository
 {
     private readonly string? stringConnection;
 
-    public RefreshTokenRepository(IConfiguration configuration)
+    public TokenRepository(IConfiguration configuration)
     {   
         stringConnection = configuration.GetConnectionString("MssqlDb");
 
@@ -23,19 +23,19 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         var query = @"
             SELECT Id, Token, UserId, ExpiryTime
             FROM RefreshTokens
-            WHERE UserId = @userId
+            WHERE UserId = @UserId
         ";
 
         using var connection = new SqlConnection(stringConnection);
 
-        return connection.QuerySingleOrDefault<RefreshTokenModel>(query, new {userId});
+        return connection.QuerySingleOrDefault<RefreshTokenModel>(query, new {UserId = userId});
     }
 
     public void Insert(RefreshTokenModel refreshTokenModel)
     {
         var query = @"
             INSERT INTO RefreshTokens (UserId, Token, ExpiryTime)
-            VALUES (UserId, Token, ExpiryTime)
+            VALUES (@UserId, @Token, @ExpiryTime)
         ";
 
         using var connection = new SqlConnection(stringConnection);
