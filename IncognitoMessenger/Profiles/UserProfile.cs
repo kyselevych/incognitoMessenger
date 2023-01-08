@@ -8,7 +8,7 @@ public class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<UserRegisterModel, UserModel>();
-        CreateMap<UserModel, UserAuthResponseModel>();
+        CreateMap<UserRegisterModel, User>();
+        CreateMap<User, UserAuthResponseModel>();
     }
 }

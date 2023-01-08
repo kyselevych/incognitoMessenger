@@ -18,19 +18,14 @@ public class UserRepository : IUserRepository
             throw new ArgumentNullException("MssqlDb string connection is null!");
     }
 
-    public IEnumerable<UserModel> GetAll()
+    public IEnumerable<User> GetAll()
     {
-        var query = @"
-            SELECT Id, Login, Password, Pseudonym
-            FROM Users
-        ";
+        using var context = new ApplicationContext();
 
-        using var connection = new SqlConnection(stringConnection);
-
-        return connection.Query<UserModel>(query);
+        return connection.Query<User>(query);
     }
 
-    public UserModel GetById(int userId)
+    public User GetById(int userId)
     {
         var query = @"
             SELECT Id, Login, Password, Pseudonym
@@ -40,10 +35,10 @@ public class UserRepository : IUserRepository
 
         using var connection = new SqlConnection(stringConnection);
 
-        return connection.QuerySingleOrDefault<UserModel>(query, new {userId});
+        return connection.QuerySingleOrDefault<User>(query, new {userId});
     }
     
-    public UserModel? GetByLogin(string userLogin)
+    public User? GetByLogin(string userLogin)
     {
         var query = @"
             SELECT Id, Login, Password, Pseudonym
@@ -53,10 +48,10 @@ public class UserRepository : IUserRepository
 
         using var connection = new SqlConnection(stringConnection);
 
-        return connection.QuerySingleOrDefault<UserModel>(query, new {UserLogin = userLogin});
+        return connection.QuerySingleOrDefault<User>(query, new {UserLogin = userLogin});
     }
 
-    public int Insert(UserModel userModel)
+    public int Insert(User userModel)
     {
         var query = @"
             INSERT INTO Users (Login, Password, Pseudonym)
@@ -81,7 +76,7 @@ public class UserRepository : IUserRepository
         connection.Execute(query, new {Id = userId});
     }
 
-    public void Update(UserModel userModel)
+    public void Update(User userModel)
     {
         var query = @"
             UPDATE Users

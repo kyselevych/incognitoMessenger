@@ -4,15 +4,15 @@ namespace Business.Repositories;
 
 public interface IUserRepository
 {
-    IEnumerable<UserModel> GetAll();
+    IEnumerable<User> GetAll();
     
-    UserModel? GetById(int userId);  
+    User? GetById(int userId);  
     
-    UserModel? GetByLogin(string userLogin);  
+    User? GetByLogin(string userLogin);  
         
-    int Insert(UserModel userModel);
+    int Insert(User userModel);
         
     void Delete(int userId);
     
-    void Update(UserModel userModel);
+    void Update(User userModel);
 }

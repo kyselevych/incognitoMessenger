@@ -1,6 +1,6 @@
 ﻿namespace Business.Entities;
 
-public class UserModel
+public class User
 {
     public int Id { get; set; }
 
@@ -8,5 +8,7 @@ public class UserModel
 
     public string Password { get; set; } = string.Empty;
 
-    public string Pseudonym { get; set; } = string.Empty;
+    public string Nickname { get; set; } = string.Empty;
+
+    public ICollection<Chat>? Chats { get; set; }
 }   

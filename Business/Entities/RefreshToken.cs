@@ -1,6 +1,6 @@
 ﻿namespace Business.Entities;
 
-public class RefreshTokenModel
+public class RefreshToken
 {
     public int Id { get; set; }
 

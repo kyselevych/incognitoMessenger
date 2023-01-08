@@ -4,11 +4,11 @@ namespace Business.Repositories;
 
 public interface ITokenRepository
 {
-    RefreshTokenModel? GetByUserId(int userId);
+    RefreshToken? GetByUserId(int userId);
 
-    void Insert(RefreshTokenModel refreshTokenModel);
+    void Insert(RefreshToken refreshTokenModel);
 
     void DeleteByUserId(int userId);
 
-    void Update(RefreshTokenModel refreshTokenModel);
+    void Update(RefreshToken refreshTokenModel);
 }

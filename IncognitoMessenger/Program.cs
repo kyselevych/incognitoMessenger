@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using IncognitoMessenger.Services.Token;
 using Microsoft.IdentityModel.Tokens;
+using MssqlDatabase;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(UserRegisterModelValidator));
 
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<ITokenService, TokenService>();
-builder.Services.AddSingleton<ITokenRepository, TokenRepository>();
+builder.Services.AddDbContext<DatabaseContext>(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("MssqlDb"))
+);
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ITokenRepository, TokenRepository>();
+
+builder.Services.AddTransient<ITokenService, TokenService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

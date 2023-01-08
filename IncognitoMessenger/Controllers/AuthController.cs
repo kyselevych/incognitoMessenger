@@ -61,7 +61,7 @@ public class AuthController : ControllerBase
         
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(userRegisterModel.Password);
 
-        var userModel = mapper.Map<UserModel>(userRegisterModel);
+        var userModel = mapper.Map<User>(userRegisterModel);
         userModel.Password = hashedPassword;
         var createdUserId = userRepository.Insert(userModel);
         userModel.Id = createdUserId;
@@ -135,7 +135,7 @@ public class AuthController : ControllerBase
         });
     }
 
-    private AuthResponseModel GetAuthRespAndDeleteInsertToken(UserModel userModel)
+    private AuthResponseModel GetAuthRespAndDeleteInsertToken(User userModel)
     {
         var userAuthResponseModel = mapper.Map<UserAuthResponseModel>(userModel);
         
@@ -149,7 +149,7 @@ public class AuthController : ControllerBase
         var refreshToken = tokenService.GenerateRefreshToken();
         var refreshTokenExpiryTimeInDays = int.Parse(configuration["JWT:RefreshTokenExpiryTimeInDays"]!);
         
-        var refreshTokenModel = new RefreshTokenModel
+        var refreshTokenModel = new RefreshToken
         {
             UserId = userModel.Id,
             Token = refreshToken,

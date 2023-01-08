@@ -18,7 +18,7 @@ public class TokenRepository : ITokenRepository
             throw new ArgumentNullException("MssqlDb string connection is null!");
     }
 
-    public RefreshTokenModel? GetByUserId(int userId)
+    public RefreshToken? GetByUserId(int userId)
     {
         var query = @"
             SELECT Id, Token, UserId, ExpiryTime
@@ -28,10 +28,10 @@ public class TokenRepository : ITokenRepository
 
         using var connection = new SqlConnection(stringConnection);
 
-        return connection.QuerySingleOrDefault<RefreshTokenModel>(query, new {UserId = userId});
+        return connection.QuerySingleOrDefault<RefreshToken>(query, new {UserId = userId});
     }
 
-    public void Insert(RefreshTokenModel refreshTokenModel)
+    public void Insert(RefreshToken refreshTokenModel)
     {
         var query = @"
             INSERT INTO RefreshTokens (UserId, Token, ExpiryTime)
@@ -43,7 +43,7 @@ public class TokenRepository : ITokenRepository
         connection.Execute(query, refreshTokenModel);
     }
     
-    public void Update(RefreshTokenModel refreshTokenModel)
+    public void Update(RefreshToken refreshTokenModel)
     {
         var query = @"
             UPDATE RefreshTokens
