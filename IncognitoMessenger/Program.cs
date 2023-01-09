@@ -57,6 +57,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 builder.Services.AddControllers();
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "ClientApp/build";
+});
+
+
 
 var app = builder.Build();
 
@@ -69,7 +75,30 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseSpaStaticFiles();
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+});
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+    }
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
