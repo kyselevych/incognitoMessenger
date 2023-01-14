@@ -1,8 +1,14 @@
-import './App.css';
+import './styles/index.scss';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './styles/theme';
 
 const App = () => {
   return (
-    <div className="App">Hello world</div>
+    <ChakraProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ChakraProvider>
   );
 }
 
