@@ -1,9 +1,8 @@
 ﻿using Business.Entities;
-using Business.Repositories;
 
 namespace MssqlDatabase.Repositories;
 
-public class TokenRepository : ITokenRepository
+public class TokenRepository
 {
     private readonly DatabaseContext context;
 
@@ -15,6 +14,11 @@ public class TokenRepository : ITokenRepository
     public RefreshToken? GetByUserId(int userId)
     {
         return context.RefreshTokens.Where(token => token.UserId == userId).FirstOrDefault();
+    }
+
+    public RefreshToken? GetByToken(string value)
+    {
+        return context.RefreshTokens.Where(token => token.Token == value).FirstOrDefault();
     }
 
     public void Insert(RefreshToken refreshToken)
@@ -31,9 +35,23 @@ public class TokenRepository : ITokenRepository
     
     public void DeleteByUserId(int userId)
     {
-        var refreshToken = new RefreshToken() { UserId = userId };
-        context.RefreshTokens.Attach(refreshToken);
-        context.RefreshTokens.Remove(refreshToken);
-        context.SaveChanges();
+        var refreshToken = context.RefreshTokens.SingleOrDefault(x => x.UserId == userId);
+
+        if (refreshToken != null)
+        {
+            context.RefreshTokens.Remove(refreshToken);
+            context.SaveChanges();
+        }
+    }
+
+    public void DeleteByToken(string token)
+    {
+        var refreshToken = context.RefreshTokens.SingleOrDefault(x => x.Token == token);
+
+        if (refreshToken != null)
+        {
+            context.RefreshTokens.Remove(refreshToken);
+            context.SaveChanges();
+        }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Business.Entities;
-using Business.Repositories;
 
 namespace MssqlDatabase.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository
 {
     private readonly DatabaseContext context;
 
@@ -19,19 +18,19 @@ public class UserRepository : IUserRepository
 
     public User? GetById(int userId)
     {
-        return context.Users.Where(user => user.Id == userId).FirstOrDefault();
+        return context.Users.Where(user => user.Id == userId).SingleOrDefault();
     }
     
     public User? GetByLogin(string userLogin)
     {
-        return context.Users.Where(user => user.Login == userLogin).FirstOrDefault();
+        return context.Users.Where(user => user.Login == userLogin).SingleOrDefault();
     }
 
-    public int Insert(User user)
+    public User Insert(User user)
     {
         var newUser = context.Users.Add(user);
         context.SaveChanges();
-        return newUser.Entity.Id;
+        return newUser.Entity;
     }
 
     public void Delete(int userId)

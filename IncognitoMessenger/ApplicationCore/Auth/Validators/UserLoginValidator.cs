@@ -1,19 +1,19 @@
-﻿using Business.Repositories;
+﻿using Business.Entities;
 using FluentValidation;
-using IncognitoMessenger.Models.User;
+using MssqlDatabase.Repositories;
 
 namespace IncognitoMessenger.Validation.Validators;
 
-public class UserLoginModelValidator : AbstractValidator<UserLoginModel>
+public class UserLoginValidator : AbstractValidator<User>
 {
-    public UserLoginModelValidator(IUserRepository userRepository)
+    public UserLoginValidator(UserRepository userRepository)
     {
         RuleFor(user => user.Login)
             .NotEmpty()
             .MinimumLength(4)
             .MaximumLength(50)
             .Must(login => userRepository.GetByLogin(login) != null)
-            .WithMessage("Login is not found!")
+            .WithMessage("Login or password in invalid")
             .DependentRules(() =>
             {
                 RuleFor(user => user.Password)
@@ -25,7 +25,7 @@ public class UserLoginModelValidator : AbstractValidator<UserLoginModel>
                         var userModel = userRepository.GetByLogin(user.Login);
                         return BCrypt.Net.BCrypt.Verify(password, userModel?.Password);
                     })
-                    .WithMessage("Password is invalid!");
+                    .WithMessage("Login or password in invalid");
             });
 
         
