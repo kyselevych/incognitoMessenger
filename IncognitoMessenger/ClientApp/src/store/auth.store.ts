@@ -50,7 +50,7 @@ class AuthStore {
         });
       })
       .catch((error: ApiError) => {
-        this.rootStore.alertStore.setAlert(error.message, 'error');
+        this.setUnauthorized();
       });
   };
 

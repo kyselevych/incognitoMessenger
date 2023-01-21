@@ -76,17 +76,23 @@ public class AuthService
         if (cookieToken == null)
             throw new ValidationException("Refresh token is not found");
 
-        var refreshToken = tokenRepository.GetByToken(cookieToken);
+        var userId = GetUserIdFromRefreshToken(cookieToken);
 
-        if (refreshToken == null)
+        if (userId == null)
             throw new ValidationException("Refresh token is invalid");
 
-        var newRefreshToken = tokenService.GenerateRefreshToken(refreshToken.User);
-        newRefreshToken.Id = refreshToken.Id;
-        tokenRepository.Update(newRefreshToken);
+        var refreshToken = tokenRepository.GetByUserId(userId.Value);
+
+        if (refreshToken == null || refreshToken.Token != cookieToken)
+            throw new ValidationException("Refresh token is invalid");
+
+        var user = userRepository.GetById(userId.Value)!;
+        var newRefreshToken = tokenService.GenerateRefreshToken(user);
+        refreshToken.Token = newRefreshToken.Token;
+        tokenRepository.Update(refreshToken);
         SetHttpOnlyCookies("X-Refresh-token", refreshToken.Token);
 
-        return CreateAuthResponse(refreshToken.User);
+        return CreateAuthResponse(user);
     }
 
     public void Revoke()
@@ -142,5 +148,14 @@ public class AuthService
     {
         var cookies = httpContextAccessor?.HttpContext?.Response.Cookies;
         cookies?.Append(key, value, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+    }
+
+    private int? GetUserIdFromRefreshToken(string token)
+    {
+        int indexDash = token.IndexOf('-');
+        bool success = int.TryParse(token.Substring(0, indexDash), out var id);
+
+        if (success) return id;
+        return null;
     }
 }

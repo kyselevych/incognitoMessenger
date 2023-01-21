@@ -1,4 +1,4 @@
-import { StoreContext, store } from "hooks/useStore";
+import { StoreContext, store } from "hooks/useSelector";
 import { type ReactNode } from "react";
 
 type Props = {

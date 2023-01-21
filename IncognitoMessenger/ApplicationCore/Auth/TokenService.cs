@@ -37,12 +37,17 @@ public class TokenService
         return new AccessToken { Key = key, ExpiryTime = jwtSettings.AccessTokenExpiryTimeInMinutes };
     }
 
-    public RefreshToken GenerateRefreshToken(User user)
+    public RefreshToken GenerateRefreshToken(User user, int? tokenId = null)
     {
-        return new RefreshToken()
+        var refreshToken = new RefreshToken()
         {
-            Token = user.Id + Guid.NewGuid().ToString(),
+            Token = $"{user.Id}-{Guid.NewGuid()}",
             UserId = user.Id
         };
+
+        if (tokenId != null)
+            refreshToken.Id = tokenId.Value;
+
+        return refreshToken;
     }
 }

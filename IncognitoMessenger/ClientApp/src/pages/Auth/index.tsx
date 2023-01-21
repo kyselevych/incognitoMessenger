@@ -4,10 +4,10 @@ import type { FormikHelpers } from "formik";
 import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import LoginForm from "components/LoginForm";
 import RegistrationForm from "components/RegisterForm";
-import useStore from "hooks/useStore";
+import useSelector from "hooks/useSelector";
 
 const Auth = () => {
-  const { authStore } = useStore();
+  const authStore = useSelector(store => store.authStore);
 
   const handleLogin = (values: LoginValues, action: FormikHelpers<LoginValues>) => {
     authStore.login(values)
