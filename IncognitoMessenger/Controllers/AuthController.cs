@@ -34,11 +34,11 @@ public class AuthController : ControllerBase
         {
             var user = mapper.Map<User>(credential);
             var response = authService.Register(user);
-            return Ok(response);
+            return Ok(ApiResponse.Success(response));
         }
         catch (ValidationException ex)
         {
-            return BadRequest(ApiResponse.CreateError(ex.Message));
+            return BadRequest(ApiResponse.Failure(ex.Message));
         }
     }
     
@@ -49,11 +49,11 @@ public class AuthController : ControllerBase
         {
             var user = mapper.Map<User>(credential);
             var response = authService.Login(user);
-            return Ok(response);
+            return Ok(ApiResponse.Success(response));
         }
         catch (ValidationException ex)
         {
-            return BadRequest(ApiResponse.CreateError(ex.Message));
+            return BadRequest(ApiResponse.Failure(ex.Message));
         }
     }
     
@@ -63,11 +63,11 @@ public class AuthController : ControllerBase
         try
         {
             var response = authService.Refresh();
-            return Ok(response);
+            return Ok(ApiResponse.Success(response));
         }
         catch (ValidationException ex)
         {
-            return BadRequest(ApiResponse.CreateError(ex.Message));
+            return BadRequest(ApiResponse.Failure(ex.Message));
         };
     }
 

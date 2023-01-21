@@ -1,7 +1,7 @@
-import type { Values } from "behavior/components/RegistrationForm/types";
+import type { Values } from "components/RegisterForm/types";
 import { Button } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
-import validationSchema from "behavior/components/RegistrationForm/validationSchema";
+import validationSchema from "components/RegisterForm/validationSchema";
 import ChakraInputField from "../ChakraInputField";
 
 type Props = {
@@ -23,12 +23,12 @@ const RegistrationForm = ({onSubmit}: Props) => {
       onSubmit={onSubmit}
     >
       {(props) => (
-        <Form>
+        <Form onSubmit={props.handleSubmit}>
           <ChakraInputField name="login" label="Login" isValidate/>
-          <ChakraInputField name="password" label="Password" mt={3} isValidate/>
-          <ChakraInputField name="repeatPassword" label="Repeat password" mt={3} isValidate/>
+          <ChakraInputField name="password" label="Password" mt={3} type="password" isValidate/>
+          <ChakraInputField name="repeatPassword" label="Repeat password" type="password" mt={3} isValidate/>
           <ChakraInputField name="nickname" label="Nickname" mt={3} isValidate/>
-          <Button isLoading={props.isSubmitting} type='submit' mt={3}>Login</Button>
+          <Button isLoading={props.isSubmitting} type='submit' mt={3}>Register</Button>
         </Form>
       )}
     </Formik>

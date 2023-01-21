@@ -1,9 +1,24 @@
+import type { Values as LoginValues } from "components/LoginForm/types";
+import type { Values as RegisterValues } from "components/RegisterForm/types";
+import type { FormikHelpers } from "formik";
 import { Box, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import logo from 'assets/logo.svg';
 import LoginForm from "components/LoginForm";
-import RegistrationForm from "components/RegistrationForm";
+import RegistrationForm from "components/RegisterForm";
+import useStore from "hooks/useStore";
 
 const Auth = () => {
+  const { authStore } = useStore();
+
+  const handleLogin = (values: LoginValues, action: FormikHelpers<LoginValues>) => {
+    authStore.login(values)
+      .finally(() => action.setSubmitting(false));
+  };
+
+  const handleRegister = (values: RegisterValues, action: FormikHelpers<RegisterValues>) => {
+    authStore.register(values)
+      .finally(() => action.setSubmitting(false));
+  };
+
   return (
     <Flex h="100vh" justifyContent="center">
       <Box mt="10vh">
@@ -15,10 +30,10 @@ const Auth = () => {
 
           <TabPanels>
             <TabPanel>
-              <LoginForm onSubmit={(values, action) => {}} />
+              <LoginForm onSubmit={handleLogin} />
             </TabPanel>
             <TabPanel>
-              <RegistrationForm onSubmit={(values, action) => {}} />
+              <RegistrationForm onSubmit={handleRegister} />
             </TabPanel>
           </TabPanels>
         </Tabs>
