@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Business\Business.csproj" />
+      <ProjectReference Include="..\Business\Domain.csproj" />
     </ItemGroup>
 
 	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -61,6 +61,8 @@
 
 	<ItemGroup>
       <Folder Include="ClientApp\" />
+      <Folder Include="Infrastructure\Profiles\" />
+      <Folder Include="Infrastructure\Settings\" />
     </ItemGroup>
 
 </Project>
