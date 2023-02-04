@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncognitoMessenger", "IncognitoMessenger\IncognitoMessenger.csproj", "{D02E6BAD-C43F-4B7D-ADC4-2A57F384FF12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Business\Domain.csproj", "{EEB43878-7068-4B89-8E08-347C53F4BB63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{EEB43878-7068-4B89-8E08-347C53F4BB63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

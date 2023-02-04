@@ -6,5 +6,5 @@ public class Chat
 
     public string Title { get; set; } = string.Empty;
 
-    public int OwnerUserId { get; set; }
+    public int UserId { get; set; }
 }   

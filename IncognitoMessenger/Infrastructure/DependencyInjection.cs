@@ -1,4 +1,5 @@
-﻿using IncognitoMessenger.Infrastructure.Settings;
+﻿using IncognitoMessenger.ApplicationCore.Chats;
+using IncognitoMessenger.Infrastructure.Settings;
 using IncognitoMessenger.Profiles;
 using IncognitoMessenger.Services;
 using IncognitoMessenger.Services.Token;
@@ -16,6 +17,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
+
         services.AddHttpContextAccessor();
         services.AddAutoMapper(typeof(AuthProfile));
 
@@ -29,11 +31,17 @@ public static class DependencyInjection
 
         services.AddTransient<UserRepository>();
         services.AddTransient<TokenRepository>();
+        services.AddTransient<ChatRepository>();
+        services.AddTransient<InviteRepository>();
+        services.AddTransient<MessageRepository>();
 
         
         services.AddTransient<AuthService>();
+        services.AddTransient<ChatService>();
+        services.AddTransient<InviteService>();
 
         services.AddControllers();
+        services.AddSignalR();
         services.AddSpaStaticFiles(cfg => cfg.RootPath = "ClientApp/build");
 
         return services;
@@ -43,6 +51,9 @@ public static class DependencyInjection
     {
         services.AddTransient<UserLoginValidator>();
         services.AddTransient<UserRegisterValidator>();
+        services.AddTransient<MemberValidator>();
+        services.AddTransient<OwnerValidator>();
+        services.AddTransient<InviteValidator>();
 
         return services;
     }

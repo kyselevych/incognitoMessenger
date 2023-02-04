@@ -25,6 +25,9 @@ app.UseSpaStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -41,9 +44,6 @@ app.UseSpa(spa =>
         spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
     }
 });
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 app.Run();
