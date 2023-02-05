@@ -89,6 +89,16 @@ public static class DependencyInjection
                         context.Response.Headers.Add("Token-Expired", "true");
                     }
                     return Task.CompletedTask;
+                },
+                OnMessageReceived = context =>
+                {
+                    var accessToken = context.Request.Headers["Authorization"];
+                    var path = context.HttpContext.Request.Path;
+                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                    {
+                        context.Token = accessToken;
+                    }
+                    return Task.CompletedTask;
                 }
             };
         });

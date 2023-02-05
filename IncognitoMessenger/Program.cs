@@ -1,3 +1,4 @@
+using IncognitoMessenger.Hubs;
 using IncognitoMessenger.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -46,4 +48,6 @@ app.UseSpa(spa =>
 });
 
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
+
 app.Run();

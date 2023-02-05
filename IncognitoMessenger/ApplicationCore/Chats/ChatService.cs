@@ -57,14 +57,14 @@ namespace IncognitoMessenger.ApplicationCore.Chats
 
         public Message SaveMessage(Message message)
         {
-            var validationResult = memberValidator.Validate(new Member { ChatId = message.ChatId, UserId = message.User.Id });
+            var validationResult = memberValidator.Validate(new Member { ChatId = message.ChatId, UserId = message.UserId });
             CheckValidationResult(validationResult);
             return messageRepository.Insert(message);
         }
 
         public void DeleteMessage(Message message)
         {
-            var validationResult = memberValidator.Validate(new Member { ChatId = message.ChatId, UserId = message.User.Id });
+            var validationResult = memberValidator.Validate(new Member { ChatId = message.ChatId, UserId = message.UserId });
             CheckValidationResult(validationResult);
             messageRepository.Delete(message.Id);
         }

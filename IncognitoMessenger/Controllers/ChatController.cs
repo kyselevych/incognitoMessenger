@@ -20,7 +20,12 @@ namespace IncognitoMessenger.Controllers
         private readonly InviteService inviteService;
         private readonly IMapper mapper;
 
-        public ChatController(IHubContext<ChatHub> hubContext, ChatService chatService, InviteService inviteService, IMapper mapper)
+        public ChatController(
+            IHubContext<ChatHub> hubContext, 
+            ChatService chatService, 
+            InviteService inviteService, 
+            IMapper mapper
+        )
         {
             this.hubContext = hubContext;
             this.chatService = chatService;
@@ -137,6 +142,33 @@ namespace IncognitoMessenger.Controllers
                 if (userId == null) throw new ValidationException("Incorrect user id");
 
                 chatService.LeaveChat(leaveChatModel.ChatId, userId.Value);
+                return Ok(ApiResponse.Success(new { }));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ApiResponse.Failure(ex.Message));
+            }
+        }
+
+        public IActionResult SendMessage([FromBody] SendMessageModel sendMessageModel)
+        {
+            try
+            {
+                var userId = User.Identity?.GetUserId();
+
+                if (userId == null) throw new ValidationException("Incorrect user id");
+
+                var message = new Message()
+                {
+                    ChatId = sendMessageModel.ChatId,
+                    UserId = userId.Value,
+                    Text = sendMessageModel.Text,
+                    DateTime = DateTime.Now
+                };
+
+                var savedMessage = chatService.SaveMessage(message);
+                hubContext.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", message).GetAwaiter().GetResult();
+
                 return Ok(ApiResponse.Success(new { }));
             }
             catch (ValidationException ex)
