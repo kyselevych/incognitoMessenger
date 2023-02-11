@@ -20,8 +20,6 @@ namespace IncognitoMessenger.ApplicationCore.Chats
             this.chatRepository = chatRepository;
         }
 
-
-
         public Invite CreateInvite(int chatId, int userId)
         {
             var validationResult = ownerValidator.Validate(new Member { ChatId = chatId, UserId = userId });

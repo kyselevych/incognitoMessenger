@@ -1,4 +1,6 @@
-﻿namespace Business.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Business.Entities;
 
 public class Message
 {

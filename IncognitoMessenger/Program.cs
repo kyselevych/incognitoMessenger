@@ -1,5 +1,6 @@
 using IncognitoMessenger.Hubs;
 using IncognitoMessenger.Infrastructure;
+using Microsoft.AspNetCore.Http.Connections;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddSignalR();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -20,6 +22,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -48,6 +52,9 @@ app.UseSpa(spa =>
 });
 
 app.MapControllers();
-app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<ChatHub>("/hubs/chat", options =>
+{
+    options.Transports = HttpTransportType.WebSockets;
+});
 
 app.Run();

@@ -1,6 +1,6 @@
 ﻿namespace IncognitoMessenger.Models.User;
 
-public class UserResponse
+public class UserSecure
 {
     public int Id { get; set; }
 

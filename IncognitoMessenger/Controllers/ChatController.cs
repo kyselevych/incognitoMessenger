@@ -57,6 +57,27 @@ namespace IncognitoMessenger.Controllers
             }
         }
 
+        [HttpGet("info/{id:int}"), Authorize]
+        public IActionResult ChatInfo(int id)
+        {
+            try
+            {
+                var userId = User.Identity?.GetUserId();
+
+                if (userId == null)
+                    throw new ValidationException("Incorrect user id");
+
+                var response = chatService.GetChat(userId.Value, id);
+                var chatSecure = mapper.Map<ChatSecure>(response);
+
+                return Ok(ApiResponse.Success(chatSecure));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ApiResponse.Failure(ex.Message));
+            }
+        }
+
         [HttpGet("list"), Authorize]
         public IActionResult GetChatsMember()
         {
@@ -150,6 +171,7 @@ namespace IncognitoMessenger.Controllers
             }
         }
 
+        [HttpPost("sendmessage"), Authorize]
         public IActionResult SendMessage([FromBody] SendMessageModel sendMessageModel)
         {
             try
@@ -167,7 +189,9 @@ namespace IncognitoMessenger.Controllers
                 };
 
                 var savedMessage = chatService.SaveMessage(message);
-                hubContext.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", message).GetAwaiter().GetResult();
+                var messageSecure = mapper.Map<MessageSecure>(savedMessage);
+
+                hubContext.Clients.Group(message.ChatId.ToString()).SendAsync("ReceiveMessage", messageSecure).GetAwaiter().GetResult();
 
                 return Ok(ApiResponse.Success(new { }));
             }

@@ -109,7 +109,7 @@ public class AuthService
 
     private AuthResponse CreateAuthResponse(User user)
     {
-        var userResponse = mapper.Map<UserResponse>(user);
+        var userResponse = mapper.Map<UserSecure>(user);
         var claims = CreateUserClaims(user);
 
         var accessToken = tokenService.GenerateAccessToken(claims);

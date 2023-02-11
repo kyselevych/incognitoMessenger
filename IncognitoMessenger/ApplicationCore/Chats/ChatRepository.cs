@@ -1,4 +1,5 @@
 ﻿using Business.Entities;
+using Microsoft.EntityFrameworkCore;
 using MssqlDatabase;
 
 namespace IncognitoMessenger.ApplicationCore.Chats;
@@ -12,6 +13,17 @@ public class ChatRepository
         this.context = context;
     }
 
+    public Chat? GetChat(int chatId)
+    {
+        var members = context.Members.Where(m => m.ChatId == chatId).Include(x => x.User).Select(x => x.User).ToList();
+        var chat = context.Chats.Where(x => x.Id == chatId).Include(x => x.Messages).SingleOrDefault();
+        if (chat != null)
+        {
+            chat.Users = members;
+        }
+        return chat;
+    }
+
     public IEnumerable<Chat> GetChats(int userId)
     {
         return context.Members.Where(x => x.UserId == userId).Select(x => x.Chat).ToList();
@@ -19,7 +31,7 @@ public class ChatRepository
 
     public Member AddUser(int userId, int chatId)
     {
-        var member = new Member() 
+        var member = new Member()
         { 
             UserId = userId,
             ChatId = chatId

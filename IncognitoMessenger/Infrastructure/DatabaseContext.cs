@@ -15,7 +15,7 @@ namespace MssqlDatabase
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            
+
         }
     }
 }

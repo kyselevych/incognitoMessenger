@@ -48,6 +48,13 @@ namespace IncognitoMessenger.ApplicationCore.Chats
             return chatList;
         }
 
+        public Chat? GetChat(int userId, int chatId)
+        {
+            var validationResult = memberValidator.Validate(new Member { ChatId = chatId, UserId = userId });
+            CheckValidationResult(validationResult);
+            return chatRepository.GetChat(chatId);
+        }
+
         public IEnumerable<Message> GetMessages(int chatId, int userId)
         {
             var validationResult = memberValidator.Validate(new Member { ChatId = chatId, UserId = userId });

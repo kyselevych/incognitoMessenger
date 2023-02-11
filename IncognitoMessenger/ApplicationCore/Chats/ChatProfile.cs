@@ -10,5 +10,8 @@ public class ChatProfile : Profile
     public ChatProfile()
     {
         CreateMap<CreateChatModel, Chat>();
+        CreateMap<Message, MessageSecure>();
+        CreateMap<User, UserSecure>();
+        CreateMap<Chat, ChatSecure>();
     }
 }

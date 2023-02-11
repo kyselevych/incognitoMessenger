@@ -7,5 +7,5 @@ public class AuthResponse
 {
     public AccessToken AccessToken { get; set; } = new AccessToken();
 
-    public UserResponse User { get; set; } = new UserResponse();
+    public UserSecure User { get; set; } = new UserSecure();
 }

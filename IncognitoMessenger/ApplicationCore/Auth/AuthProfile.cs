@@ -10,6 +10,6 @@ public class AuthProfile : Profile
     {
         CreateMap<UserRegisterCredential, User>();
         CreateMap<UserLoginCredential, User>();
-        CreateMap<User, UserResponse>();
+        CreateMap<User, UserSecure>();
     }
 }
