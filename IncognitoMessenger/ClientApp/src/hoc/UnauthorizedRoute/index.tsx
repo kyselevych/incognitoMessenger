@@ -13,10 +13,10 @@ const UnauthorizedRoute = ({ children }: Props): JSX.Element => {
 
   switch(status) {
     case AuthStatus.Unauthorized: 
-      return <Navigate to={Route.Index} />
+      return children;
 
     case AuthStatus.Authorized: 
-      return children;
+      return <Navigate to={Route.Index} />;
 
     case AuthStatus.Pending:
     default:

@@ -6,7 +6,7 @@ class AuthService {
   login = async (payload: LoginPayload) => {
     return await this.executeTryCatch(async () => {
       const { data } = await axios.post<ApiResponse<AuthResponse>>('auth/login', payload);
-      axios.defaults.headers.common['Authorization'] = data.data.accessToken.key;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.data.accessToken.key;
       return data;
     });
   };
@@ -14,7 +14,7 @@ class AuthService {
   register = async (payload: RegisterPayload) => {
     return await this.executeTryCatch(async () => {
       const { data } = await axios.post<ApiResponse<AuthResponse>>('auth/register', payload);
-      axios.defaults.headers.common['Authorization'] = data.data.accessToken.key;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.data.accessToken.key;
       return data;
     });
   };
@@ -29,7 +29,7 @@ class AuthService {
   refresh = async () => {
     return await this.executeTryCatch(async () => {
       const { data } = await axios.post<ApiResponse<AuthResponse>>('auth/refresh');
-      axios.defaults.headers.common['Authorization'] = data.data.accessToken.key;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.data.accessToken.key;
       return data;
     });
   };

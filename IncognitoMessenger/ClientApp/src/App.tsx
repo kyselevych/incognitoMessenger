@@ -1,4 +1,6 @@
 import './styles/index.scss';
+import "@fontsource/poppins";
+import "@fontsource/poppins/500.css";
 import axios from 'axios';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
@@ -26,6 +28,6 @@ const App = () => {
       </StoreProvider>
     </ChakraProvider>
   );
-}
+};
 
 export default App;
